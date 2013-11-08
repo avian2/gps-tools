@@ -1,0 +1,6 @@
+gps-tools is an asorted collection of tools for playing with GPS data in Python.
+
+Functions and scripts in this repository have been used for recording and
+processing GPS data in measuring campaigns with a mobile VESNA sensor node.
+
+They are probably not useful for anything else.
