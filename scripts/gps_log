@@ -1,0 +1,43 @@
+#!/usr/bin/python
+import datetime
+import serial
+import sys
+import time
+
+start_time = None
+out_f = None
+
+def write(time, msg):
+	global start_time, out_f
+
+	print msg
+
+	if out_f:
+		out_f.write("%f\t%s\n" % (time-start_time, msg))
+		out_f.flush()
+
+def main():
+	global start_time, out_f
+
+	if len(sys.argv) != 3:
+		print "USAGE: gps_log.py serial_device log_path"
+		return
+
+	device = sys.argv[1]
+	log_path = sys.argv[2]
+
+	out_f = open(log_path, "w")
+	comm = serial.Serial(device, 4800)
+
+	start_time = time.time()
+
+	out_f.write("# started at %s (%f)\n" % (
+		datetime.datetime.fromtimestamp(start_time),
+		start_time))
+
+	while True:
+		line = comm.readline()
+		write(time.time(), line.strip())
+		
+
+main()
